@@ -12,7 +12,7 @@ class Game {
     this.players = [p1, p2]
     this.width = width
     this.height = height
-    this.currPlayer = 1
+    this.currPlayer = p1
     this.makeBoard()
     this.makeHtmlBoard()
     this.gameOver = false
@@ -34,7 +34,8 @@ class Game {
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr')
     top.setAttribute('id', 'column-top')
-    top.addEventListener('click', this.handleClick.bind(this))
+    this.gameClick = this.handleClick.bind(this)
+    top.addEventListener('click', this.gameClick)
 
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td')
@@ -61,7 +62,6 @@ class Game {
   /** findSpotForCol: given column x, return top empty y (null if filled) */
   findSpotForCol(x) {
     for (let y = this.height - 1; y >= 0; y--) {
-      console.log('y is ' + y, 'x is ' + x)
       if (!this.board[y][x]) {
         return y
       }
@@ -72,7 +72,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div')
     piece.classList.add('piece')
-    piece.classList.add(`p${this.currPlayer.color}`)
+    piece.style.backgroundColor = this.currPlayer.color
     piece.style.top = -50 * (y + 2)
 
     const spot = document.getElementById(`${y}-${x}`)
@@ -100,7 +100,7 @@ class Game {
     // check for win
     if (this.checkForWin()) {
       this.gameOver = true
-      return this.endGame(`Player ${this.currPlayer} won!`)
+      return this.endGame(`Player ${this.currPlayer.color} won!`)
     }
 
     // check for tie
@@ -115,7 +115,7 @@ class Game {
   }
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
   checkForWin() {
-    function _win(cells) {
+    const _win = (cells) => {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
@@ -174,8 +174,8 @@ class Player {
   }
 }
 
-document.querySelector('#start-game-btn').addEventListener('click', () => {
-  let p1 = new Player(document.querySelector('#p-1').value)
-  let p2 = new Player(document.querySelector('#p-2').value)
-  new Game(6, 7)
+document.getElementById('start-game').addEventListener('click', () => {
+  let p1 = new Player(document.getElementById('p1-color').value)
+  let p2 = new Player(document.getElementById('p2-color').value)
+  new Game(p1, p2)
 })
