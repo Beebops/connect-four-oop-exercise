@@ -70,6 +70,7 @@ class Game {
   }
   /** placeInTable: update DOM to place piece into HTML table of board */
   placeInTable(y, x) {
+    if (this.gameOver) return
     const piece = document.createElement('div')
     piece.classList.add('piece')
     piece.style.backgroundColor = this.currPlayer.color
