@@ -180,11 +180,12 @@ document.getElementById('start-game').addEventListener('click', startGame)
 function startGame() {
   let p1 = new Player(document.getElementById('p1-color').value)
   let p2 = new Player(document.getElementById('p2-color').value)
-  console.log(p1, p2) // Player {color: 'red'} Player {color: 'blue'}
-  console.log(p1.color, p2.color) // red blue
-  //new Game(p1, p2)
-  //console.log(p1, p2) // Player {color: 'red'} Player {color: 'blue'}
-  //console.log(p1.color, p2.color)
-}
+  // Player {color: 'red'} Player {color: 'blue'}
 
-//click btn startGame is called
+  if (p1.color === '' || p2.color === '') {
+    alert('enter a color for both players')
+    return
+  } else {
+    new Game(p1, p2)
+  }
+}
