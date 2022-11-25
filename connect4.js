@@ -174,8 +174,16 @@ class Player {
   }
 }
 
-document.getElementById('start-game').addEventListener('click', () => {
-  let p1 = new Player(document.getElementById('p1-color').value)
-  let p2 = new Player(document.getElementById('p2-color').value)
-  new Game(p1, p2)
-})
+document.getElementById('start-game').addEventListener('click', startGame)
+
+function startGame() {
+  if (!p1.value && !p2.value) {
+    alert('please enter a color for each player')
+  } else {
+    let p1 = new Player(document.getElementById('p1-color').value)
+    let p2 = new Player(document.getElementById('p2-color').value)
+    new Game(p1, p2)
+  }
+}
+
+// can't call startGame if there is no p1.value/p2.value
