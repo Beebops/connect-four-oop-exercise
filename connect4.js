@@ -79,8 +79,10 @@ class Game {
     spot.append(piece)
   }
   /** endGame: announce game end */
-  endGame(msg) {
-    alert(msg)
+  waitToEndGame(delay, msg) {
+    setTimeout(() => {
+      alert(msg)
+    }, delay)
   }
   /** handleClick: handle click of column top to play piece */
   handleClick(evt) {
@@ -100,13 +102,13 @@ class Game {
     // check for win
     if (this.checkForWin()) {
       this.gameOver = true
-      return this.endGame(`Player ${this.currPlayer.color} won!`)
+      return this.waitToEndGame(1000, `Player ${this.currPlayer.color} won!`)
     }
 
     // check for tie
     if (this.board.every((row) => row.every((cell) => cell))) {
       this.gameOver = true
-      return endGame('Tie!')
+      return waitToEndGame(1000, 'Tie!')
     }
 
     // switch players
